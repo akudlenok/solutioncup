@@ -19,4 +19,8 @@ export const endpoints = {
     url: '/categories',
     title: 'Категории расходов',
   },
+  history: {
+    url: '/history',
+    title: 'История расходов',
+  },
 };

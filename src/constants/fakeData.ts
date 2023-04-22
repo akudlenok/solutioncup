@@ -5,6 +5,7 @@ import { PERMISSIONS } from 'constants/permissions';
 import { getRandomNumber } from 'utils/getRandomNumber';
 import { MONTH_IDS } from 'constants/month';
 import { getCurrentMonth } from 'utils/getCurrentMonth';
+import { IExpense } from 'types/model/IExpense';
 
 export const authUser: IUser = {
   id: generateRandomString(),
@@ -85,3 +86,14 @@ const generatePopularCategories = (startMonth: number, endMonth: number): IPopul
   return popular;
 };
 export const popularCategories: IPopularCategory[] = generatePopularCategories(1, currentMonth);
+
+export const expense: IExpense[] = [
+  {
+    id: 1,
+    name: 'Бензин',
+    date: '20-04-2023',
+    total: 500,
+    categoryId: AUTO_CATEGORY_ID,
+    category: getCategoryById(AUTO_CATEGORY_ID),
+  },
+];

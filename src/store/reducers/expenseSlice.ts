@@ -3,9 +3,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IExpenseState } from 'types/state/IExpenseState';
 import { IExpense } from 'types/model/IExpense';
 import { IExpenseFormFields } from 'types/form/IExpenseFromFields';
+import { RootState } from 'store/store';
+import { expense } from 'constants/fakeData';
 
 const initialState: IExpenseState = {
-  items: [],
+  items: expense,
 };
 
 export const expenseSlice = createSlice({
@@ -27,4 +29,7 @@ export const expenseSlice = createSlice({
   },
 });
 
+export const getExpenses = (page: number, limit: number) => (store: RootState): IExpense[] => {
+  return store.expense.items;
+};
 export default expenseSlice.reducer;

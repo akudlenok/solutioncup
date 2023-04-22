@@ -7,6 +7,7 @@ import ExpensesPage from 'pages/ExpensesPage/ExpensesPage';
 import CategoriesPage from 'pages/CategoriesPage/CategoriesPage';
 import PrivateComponent from 'router/PrivateComponent';
 import { PERMISSIONS } from 'constants/permissions';
+import HistoryPage from 'pages/HistoryPage/HistoryPage';
 
 const navigateTo = (fromPath: string, toPath: string) => {
   return {
@@ -30,8 +31,20 @@ export const privateRouters: RouteObject[] = [
           />,
       },
       {
+        path: endpoints.history.url,
+        element:
+          <PrivateComponent
+            component={HistoryPage}
+            permission={PERMISSIONS.EXPENSE.READ}
+          />,
+      },
+      {
         path: endpoints.expenses.url,
-        element: <ExpensesPage />,
+        element:
+          <PrivateComponent
+            component={ExpensesPage}
+            permission={PERMISSIONS.EXPENSE.READ}
+          />,
       },
     ],
   },
