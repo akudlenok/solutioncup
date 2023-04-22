@@ -63,7 +63,7 @@ const ExpensesPage: FC = (): JSX.Element => {
                     </Typography>
                     <Progress value={percent}
                               color={getColorProgress(percent)}
-                              label='Израсходовано' />;
+                              label='Израсходовано' />
                   </CardBody>
                 </Card>
               );
