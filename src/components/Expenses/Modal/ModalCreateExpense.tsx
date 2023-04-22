@@ -1,10 +1,9 @@
 import { FC } from 'react';
-import { ICategoryFormFields } from 'types/form/IRoleFormFields';
 import { IModal } from 'types/global/IModal';
-import CategoryForm from 'components/Categories/Form/CategoryForm';
 import Modal from 'components/Modal/Modal';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { categorySlice, getAllCompanies, getCompanies } from 'store/reducers/categorySlice';
+import ExpenseForm from 'components/Expenses/Form/ExpenseForm';
+import { IExpenseFormFields } from 'types/form/IExpenseFromFields';
 
 
 interface ModalCreateCategoryProps extends IModal {
@@ -12,15 +11,7 @@ interface ModalCreateCategoryProps extends IModal {
 
 const ModalCreateExpense: FC<ModalCreateCategoryProps> = ({ open, onClose }): JSX.Element => {
     const dispatch = useAppDispatch();
-    const { add } = categorySlice.actions;
-    const categories = useAppSelector(
-      getAllCompanies(),
-    );
-    const onSubmit = (data: ICategoryFormFields): void => {
-      dispatch(add({
-        id: categories.length + 1,
-        ...data,
-      }));
+    const onSubmit = (data: IExpenseFormFields): void => {
       onClose();
     };
 
@@ -29,7 +20,7 @@ const ModalCreateExpense: FC<ModalCreateCategoryProps> = ({ open, onClose }): JS
         title='Добавление расхода'
         open={open}
         onClose={onClose}>
-        <CategoryForm
+        <ExpenseForm
           onSubmit={onSubmit}
         />
       </Modal>

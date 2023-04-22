@@ -10,6 +10,7 @@ import { IPopularCategory } from 'types/model/ICategory';
 import { useCheckPermission } from 'hooks/useCheckPermission';
 import { PERMISSIONS } from 'constants/permissions';
 import useToggle from 'hooks/useToggle';
+import ModalCreateExpense from 'components/Expenses/Modal/ModalCreateExpense';
 
 const ExpensesPage: FC = (): JSX.Element => {
     const [isShowModal, toggleShowModal] = useToggle(false);
@@ -55,7 +56,7 @@ const ExpensesPage: FC = (): JSX.Element => {
             popularCategories.map(popularCategory => {
               const percent = isWhatPercentOf(popularCategory.total, popularCategory.limit);
               return (
-                <Card className='w-full'>
+                <Card className='w-full' key={popularCategory.category.id}>
                   <CardBody className='text-center'>
                     <Typography variant='h5' className='mb-2'>
                       {popularCategory.category.name}
@@ -69,6 +70,7 @@ const ExpensesPage: FC = (): JSX.Element => {
             })
           }
         </div>
+        {isCanCreateExpense && <ModalCreateExpense open={isShowModal} onClose={toggleShowModal} />}
       </>
     );
   }

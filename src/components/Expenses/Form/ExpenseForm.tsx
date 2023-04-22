@@ -5,6 +5,9 @@ import { Button, Input } from '@material-tailwind/react';
 import FormWrapper from 'components/FormWrapper/FormWrapper';
 import { IExpenseFormFields } from 'types/form/IExpenseFromFields';
 import { IExpense } from 'types/model/IExpense';
+import { useAppSelector } from 'hooks/redux';
+import { getAllCompanies } from 'store/reducers/categorySlice';
+import { DEFAUL_SELECT_ID } from 'constants/filter';
 
 interface RoleFormProps {
   expense?: IExpense;
@@ -18,8 +21,14 @@ const RoleForm: FC<RoleFormProps> = ({ expense, onSubmit }) => {
     handleSubmit,
     reset,
   } = useForm<IExpenseFormFields>({ defaultValues: expense ? { ...expense } : {} });
+  const categories = useAppSelector(
+    getAllCompanies(),
+  );
   const onSubmitHandler: SubmitHandler<IExpenseFormFields> = data => {
-    onSubmit(data);
+    onSubmit({
+      ...data,
+      categoryId: +data.categoryId,
+    });
   };
 
   const onResetHandler = (): void => {
@@ -28,7 +37,7 @@ const RoleForm: FC<RoleFormProps> = ({ expense, onSubmit }) => {
 
   return (
     <FormWrapper>
-      <form className='flex flex-col' onSubmit={handleSubmit(onSubmitHandler)}>
+      <form className='flex flex-col gap-2' onSubmit={handleSubmit(onSubmitHandler)}>
         <Input
           label='Дата расхода'
           {...register('date', {
@@ -45,6 +54,14 @@ const RoleForm: FC<RoleFormProps> = ({ expense, onSubmit }) => {
           type='number'
           autoComplete='off'
         />
+        <select  {...register('categoryId')}>
+          <option value={DEFAUL_SELECT_ID}>Не выбрано</option>
+          {categories.map(category => {
+            return (
+              <option value={category.id}>{category.name}</option>
+            );
+          })}
+        </select>
         <div className='flex ml-auto mt-3 gap-3'>
           <Button
             onClick={onResetHandler}
