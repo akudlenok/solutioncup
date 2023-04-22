@@ -3,6 +3,8 @@ import MainLayout from 'layouts/MainLayout';
 import PublicLayout from 'layouts/PublicLayout';
 import { endpoints } from 'constants/endpoints';
 import LoginPage from 'pages/LoginPage/LoginPage';
+import ExpensesPage from 'pages/ExpensesPage/ExpensesPage';
+import CategoriesPage from 'pages/CategoriesPage/CategoriesPage';
 
 const navigateTo = (fromPath: string, toPath: string) => {
   return {
@@ -13,9 +15,19 @@ const navigateTo = (fromPath: string, toPath: string) => {
 
 export const privateRouters: RouteObject[] = [
   {
-    path: endpoints.base.url,
     element: <MainLayout />,
-    children: [],
+    children: [
+      navigateTo(endpoints.login.url, endpoints.expenses.url),
+      navigateTo(endpoints.base.url, endpoints.expenses.url),
+      {
+        path: endpoints.expenses.url,
+        element: <ExpensesPage />,
+      },
+      {
+        path: endpoints.categories.url,
+        element: <CategoriesPage />,
+      },
+    ],
   },
 ];
 

@@ -1,10 +1,12 @@
 import { AnyAction, combineReducers, configureStore, Reducer } from '@reduxjs/toolkit';
 import authReducer from './reducers/authSlice';
+import categoryReducer from './reducers/categorySlice';
 import { commonApi } from 'services/commonApi';
 import { rtkQueryErrorLogger } from 'services/rtkQueryErrorLogger';
 
 const combinedReducer = combineReducers({
   auth: authReducer,
+  category: categoryReducer,
   [commonApi.reducerPath]: commonApi.reducer,
 });
 

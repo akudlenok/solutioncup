@@ -6,15 +6,16 @@ import { useAppDispatch } from 'hooks/redux';
 import { authSlice } from 'store/reducers/authSlice';
 import { LoginRequest } from 'types/request/LoginRequest';
 import { useLoginMutation } from 'services/auth';
+import { authUser } from 'constants/fakeData';
 
 const LoginPage: FC = (): JSX.Element => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { login } = authSlice.actions;
   const [loginBack, { data, isSuccess: isSuccessAuth, isLoading: isFetchingAuth }] = useLoginMutation();
   const [formData, setFormData] = useState<LoginRequest>({
-    login: '',
-    password: '',
+    login: 'admin',
+    password: 'admin',
   });
 
   const inputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -40,13 +41,13 @@ const LoginPage: FC = (): JSX.Element => {
   }, [isSuccessAuth, data]);
 
   const loginHandler = () => {
-    dispatch(login({ user: { id: '1' }, token: 'token' }));
+    dispatch(login({ user: authUser, token: 'token' }));
     navigate(endpoints.base.url);
-    //loginBack(formData);
   };
 
   return (
-    <div className='w-full p-10 m-auto bg-white rounded-md shadow-xl shadow-blue-300/40 ring ring-2 ring-blue-300 lg:max-w-xl'>
+    <div
+      className='w-full p-10 m-auto bg-white rounded-md shadow-xl shadow-blue-300/40 ring ring-2 ring-blue-300 lg:max-w-xl'>
       <Card color='transparent' shadow={false} className='text-center'>
         <Typography variant='h4' color='blue-gray'>
           Войдите в свой аккаунт
