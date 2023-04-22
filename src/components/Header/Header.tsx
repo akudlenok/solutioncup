@@ -7,6 +7,8 @@ import { useAuth } from 'hooks/useAuth';
 import { authSlice } from 'store/reducers/authSlice';
 import { commonApi } from 'services/commonApi';
 import { endpoints } from 'constants/endpoints';
+import { menuItems } from 'constants/menuItems';
+import { useCheckPermission } from 'hooks/useCheckPermission';
 
 const Header: FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -21,25 +23,15 @@ const Header: FC = (): JSX.Element => {
     navigate(endpoints.login.url);
   };
 
-  const menu = [
-    {
-      sort: 1,
-      link: endpoints.expenses,
-    },
-    {
-      sort: 2,
-      link: endpoints.categories,
-    },
-  ];
-
   const navList = (
     <ul className='mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6'>
-      {menu
+      {menuItems
+        .filter(item => item.permissions.length ? useCheckPermission(item.permissions[0]) : true)
         .sort((a, b) => a.sort - b.sort)
         .map(item => (
-          <Typography as='li' key={item.link.title} variant='small' color='blue-gray' className='p-1 font-normal'>
-            <Link to={item.link.url} className='flex items-center'>
-              {item.link.title}
+          <Typography as='li' key={item.title} variant='small' color='blue-gray' className='p-1 font-normal'>
+            <Link to={item.to} className='flex items-center'>
+              {item.title}
             </Link>
           </Typography>
         ))}

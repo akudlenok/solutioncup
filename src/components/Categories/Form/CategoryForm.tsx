@@ -30,9 +30,8 @@ const RoleForm: FC<RoleFormProps> = ({ category, onSubmit }) => {
       <form className='flex flex-col' onSubmit={handleSubmit(onSubmitHandler)}>
         <Input
           label='Название категории'
-          className={errors.name ? 'input-error' : ''}
           {...register('name', {
-            required: 'Поле обязательно для заполнения',
+            required: true,
           })}
           autoComplete='off'
         />

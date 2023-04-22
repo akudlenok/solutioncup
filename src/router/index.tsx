@@ -5,6 +5,8 @@ import { endpoints } from 'constants/endpoints';
 import LoginPage from 'pages/LoginPage/LoginPage';
 import ExpensesPage from 'pages/ExpensesPage/ExpensesPage';
 import CategoriesPage from 'pages/CategoriesPage/CategoriesPage';
+import PrivateComponent from 'router/PrivateComponent';
+import { PERMISSIONS } from 'constants/permissions';
 
 const navigateTo = (fromPath: string, toPath: string) => {
   return {
@@ -20,12 +22,16 @@ export const privateRouters: RouteObject[] = [
       navigateTo(endpoints.login.url, endpoints.expenses.url),
       navigateTo(endpoints.base.url, endpoints.expenses.url),
       {
-        path: endpoints.expenses.url,
-        element: <ExpensesPage />,
+        path: endpoints.categories.url,
+        element:
+          <PrivateComponent
+            component={CategoriesPage}
+            permission={PERMISSIONS.CATEGORIES.READ}
+          />,
       },
       {
-        path: endpoints.categories.url,
-        element: <CategoriesPage />,
+        path: endpoints.expenses.url,
+        element: <ExpensesPage />,
       },
     ],
   },

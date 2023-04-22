@@ -1,41 +1,56 @@
 import { IUser } from 'types/model/IUser';
 import { ICategory } from 'types/model/ICategory';
 import { generateRandomString } from 'utils/generateRandomString';
+import { PERMISSIONS } from 'constants/permissions';
 
 export const authUser: IUser = {
   id: generateRandomString(),
   lastName: 'Иванов',
   firstName: 'Иван',
   middleName: 'Иванович',
+  permissions: [
+    PERMISSIONS.CATEGORIES.CREATE,
+    PERMISSIONS.CATEGORIES.UPDATE,
+    PERMISSIONS.CATEGORIES.DELETE,
+    PERMISSIONS.CATEGORIES.READ,
+  ],
 };
+
+const AUTO_CATEGORY_ID = 1;
+const COSMETIC_CATEGORY_ID = 2;
+const HOBBY_CATEGORY_ID = 3;
+const CLOTHING_CATEGORY_ID = 4;
+const PRODUCTS_CATEGORY_ID = 5;
+const RENTAL_PROPERTY_CATEGORY_ID = 6;
+const EDUCATION_CATEGORY_ID = 7;
 
 export const categories: ICategory[] = [
   {
-    id: 1,
+    id: AUTO_CATEGORY_ID,
     name: 'Автомобиль',
   },
   {
-    id: 2,
+    id: COSMETIC_CATEGORY_ID,
     name: 'Косметика',
   },
   {
-    id: 3,
+    id: HOBBY_CATEGORY_ID,
     name: 'Хобби',
   },
   {
-    id: 4,
+    id: CLOTHING_CATEGORY_ID,
     name: 'Одежда',
   },
   {
-    id: 5,
+    id: PRODUCTS_CATEGORY_ID,
     name: 'Продукты',
   },
   {
-    id: 6,
+    id: RENTAL_PROPERTY_CATEGORY_ID,
     name: 'Аренда недвижимости',
   },
   {
-    id: 7,
+    id: EDUCATION_CATEGORY_ID,
     name: 'Образование',
   },
 ];

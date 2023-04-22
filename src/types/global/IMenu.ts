@@ -1,5 +1,6 @@
-import { IEndpoint } from 'types/global/IEndpoint';
-
-export interface IMenu extends IEndpoint {
+export interface IMenu {
+  title: string,
+  to: string,
+  sort: number,
   permissions: string[],
 }

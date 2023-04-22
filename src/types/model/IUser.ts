@@ -3,5 +3,6 @@ export interface IUser {
   lastName: string;
   firstName: string;
   middleName: string;
+  permissions: string[],
 
 }
