@@ -2,9 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IUser } from 'types/model/IUser';
 import { AuthState } from 'types/state/IAuthState';
 import { deleteAccessToken, getAccessToken, saveAccessToken } from 'utils/localStorage';
+import { authUser } from 'constants/fakeData';
 
 const initialState: AuthState = {
-  user: {} as IUser,
+  user: authUser,
   token: getAccessToken() || '',
 };
 
