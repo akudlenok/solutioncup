@@ -8,6 +8,7 @@ import { IExpense } from 'types/model/IExpense';
 import { useAppSelector } from 'hooks/redux';
 import { getAllCompanies } from 'store/reducers/categorySlice';
 import { DEFAUL_SELECT_ID } from 'constants/filter';
+import { ICategory } from 'types/model/ICategory';
 
 interface RoleFormProps {
   expense?: IExpense;
@@ -28,6 +29,7 @@ const RoleForm: FC<RoleFormProps> = ({ expense, onSubmit }) => {
     onSubmit({
       ...data,
       categoryId: +data.categoryId,
+      category: categories.find(item => item.id === +data.categoryId) as ICategory
     });
   };
 
@@ -38,6 +40,13 @@ const RoleForm: FC<RoleFormProps> = ({ expense, onSubmit }) => {
   return (
     <FormWrapper>
       <form className='flex flex-col gap-2' onSubmit={handleSubmit(onSubmitHandler)}>
+        <Input
+          label='Наименование расхода'
+          {...register('name', {
+            required: true,
+          })}
+          autoComplete='off'
+        />
         <Input
           label='Дата расхода'
           {...register('date', {

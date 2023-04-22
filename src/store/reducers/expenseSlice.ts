@@ -15,6 +15,7 @@ export const expenseSlice = createSlice({
   initialState,
   reducers: {
     add(state: IExpenseState, { payload }: PayloadAction<IExpense>) {
+
       state.items = [...state.items, payload];
     },
     delete(state: IExpenseState, { payload }: PayloadAction<number>) {
