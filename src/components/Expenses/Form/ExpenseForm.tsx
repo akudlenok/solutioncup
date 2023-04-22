@@ -1,23 +1,24 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { ICategory } from 'types/model/ICategory';
 import { ICategoryFormFields } from 'types/form/IRoleFormFields';
 import { Button, Input } from '@material-tailwind/react';
 import FormWrapper from 'components/FormWrapper/FormWrapper';
+import { IExpenseFormFields } from 'types/form/IExpenseFromFields';
+import { IExpense } from 'types/model/IExpense';
 
 interface RoleFormProps {
-  category?: ICategory;
-  onSubmit: (data: ICategoryFormFields) => void;
+  expense?: IExpense;
+  onSubmit: (data: IExpenseFormFields) => void;
 }
 
-const CategoryForm: FC<RoleFormProps> = ({ category, onSubmit }) => {
+const RoleForm: FC<RoleFormProps> = ({ expense, onSubmit }) => {
   const {
     register,
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm<ICategoryFormFields>({ defaultValues: category ? { ...category } : {} });
-  const onSubmitHandler: SubmitHandler<ICategoryFormFields> = data => {
+  } = useForm<IExpenseFormFields>({ defaultValues: expense ? { ...expense } : {} });
+  const onSubmitHandler: SubmitHandler<IExpenseFormFields> = data => {
     onSubmit(data);
   };
 
@@ -29,10 +30,19 @@ const CategoryForm: FC<RoleFormProps> = ({ category, onSubmit }) => {
     <FormWrapper>
       <form className='flex flex-col' onSubmit={handleSubmit(onSubmitHandler)}>
         <Input
-          label='Название категории'
-          {...register('name', {
+          label='Дата расхода'
+          {...register('date', {
             required: true,
           })}
+          type='date'
+          autoComplete='off'
+        />
+        <Input
+          label='Сумма расхода'
+          {...register('total', {
+            required: true,
+          })}
+          type='number'
           autoComplete='off'
         />
         <div className='flex ml-auto mt-3 gap-3'>
@@ -46,7 +56,7 @@ const CategoryForm: FC<RoleFormProps> = ({ category, onSubmit }) => {
           <Button
             type='submit'
           >
-            {category ? 'Сохранить' : 'Создать'}
+            {expense ? 'Сохранить' : 'Создать'}
           </Button>
         </div>
       </form>
@@ -54,4 +64,4 @@ const CategoryForm: FC<RoleFormProps> = ({ category, onSubmit }) => {
   );
 };
 
-export default CategoryForm;
+export default RoleForm;

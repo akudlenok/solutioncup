@@ -1,7 +1,10 @@
 import { IUser } from 'types/model/IUser';
-import { ICategory } from 'types/model/ICategory';
+import { ICategory, IPopularCategory } from 'types/model/ICategory';
 import { generateRandomString } from 'utils/generateRandomString';
 import { PERMISSIONS } from 'constants/permissions';
+import { getRandomNumber } from 'utils/getRandomNumber';
+import { MONTH_IDS } from 'constants/month';
+import { getCurrentMonth } from 'utils/getCurrentMonth';
 
 export const authUser: IUser = {
   id: generateRandomString(),
@@ -13,6 +16,10 @@ export const authUser: IUser = {
     PERMISSIONS.CATEGORIES.UPDATE,
     PERMISSIONS.CATEGORIES.DELETE,
     PERMISSIONS.CATEGORIES.READ,
+    PERMISSIONS.EXPENSE.UPDATE,
+    PERMISSIONS.EXPENSE.DELETE,
+    PERMISSIONS.EXPENSE.READ,
+    PERMISSIONS.EXPENSE.CREATE,
   ],
 };
 
@@ -54,3 +61,27 @@ export const categories: ICategory[] = [
     name: 'Образование',
   },
 ];
+
+const getCategoryById = (id: number): ICategory => {
+  return categories.find(category => category.id === id) as ICategory;
+};
+
+const currentMonth = getCurrentMonth();
+const useMonths = MONTH_IDS.filter(id => id <= currentMonth);
+
+const generatePopularCategories = (startMonth: number, endMonth: number): IPopularCategory[] => {
+  let popular: IPopularCategory[] = [];
+  const useMonths = MONTH_IDS.filter(id => id >= startMonth && id <= endMonth);
+  useMonths.forEach(month => {
+    popular = [...popular, ...categories.map(category => {
+      return {
+        category,
+        total: getRandomNumber(1000, 1500),
+        limit: getRandomNumber(1000, 1500),
+        month,
+      };
+    })];
+  });
+  return popular;
+};
+export const popularCategories: IPopularCategory[] = generatePopularCategories(1, currentMonth);
