@@ -1,36 +1,32 @@
 import { FC } from 'react';
-import { ICategory } from 'types/model/ICategory';
 import Modal from 'components/Modal/Modal';
 import { IModal } from 'types/global/IModal';
-import CategoryForm from 'components/Categories/Form/CategoryForm';
-import { ICategoryFormFields } from 'types/form/IRoleFormFields';
-import { useAppDispatch } from 'hooks/redux';
-import { categorySlice } from 'store/reducers/categorySlice';
+import { IExpense } from 'types/model/IExpense';
+import ExpenseForm from 'components/Expenses/Form/ExpenseForm';
+import { useEditExpenseMutation } from 'services/expenses';
+import { IExpenseFormFields } from 'types/form/IExpenseFromFields';
 
-interface ModalUpdateCategoryProps extends IModal {
-  category: ICategory;
+interface ModalUpdateExpenseProps extends IModal {
+  expense: IExpense;
 }
 
-const ModalUpdateExpense: FC<ModalUpdateCategoryProps> = ({ open, onClose, category }): JSX.Element => {
-  const dispatch = useAppDispatch();
-  const { update } = categorySlice.actions;
-  const onSubmit = (data: ICategoryFormFields): void => {
-    dispatch(update({
-      id: category.id,
+const ModalUpdateExpense: FC<ModalUpdateExpenseProps> = ({ open, onClose, expense }): JSX.Element => {
+  const [update] = useEditExpenseMutation();
+  const onSubmit = (data: IExpenseFormFields): void => {
+    update({
+      id: expense.id,
       data,
-    }));
-    onClose();
+    })
+      .unwrap()
+      .then(resp => {
+        onClose();
+      })
+      .catch(err => {});
   };
 
   return (
-    <Modal
-      title='Редактирование категории'
-      open={open}
-      onClose={onClose}>
-      <CategoryForm
-        category={category}
-        onSubmit={onSubmit}
-      />
+    <Modal title='Редактирование расхода' open={open} onClose={onClose}>
+      <ExpenseForm expense={expense} onSubmit={onSubmit} />
     </Modal>
   );
 };

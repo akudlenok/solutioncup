@@ -8,6 +8,7 @@ import CategoriesPage from 'pages/CategoriesPage/CategoriesPage';
 import PrivateComponent from 'router/PrivateComponent';
 import { PERMISSIONS } from 'constants/permissions';
 import HistoryPage from 'pages/HistoryPage/HistoryPage';
+import LimitCategoriesPage from 'pages/LimitCategoriesPage/LimitCategoriesPage';
 
 const navigateTo = (fromPath: string, toPath: string) => {
   return {
@@ -24,28 +25,21 @@ export const privateRouters: RouteObject[] = [
       navigateTo(endpoints.base.url, endpoints.expenses.url),
       {
         path: endpoints.categories.url,
-        element:
-          <PrivateComponent
-            component={CategoriesPage}
-            permission={PERMISSIONS.CATEGORIES.READ}
-          />,
+        element: <PrivateComponent component={CategoriesPage} permission={PERMISSIONS.CATEGORIES.READ} />,
       },
       {
         path: endpoints.history.url,
-        element:
-          <PrivateComponent
-            component={HistoryPage}
-            permission={PERMISSIONS.EXPENSE.READ}
-          />,
+        element: <PrivateComponent component={HistoryPage} permission={PERMISSIONS.EXPENSE.READ} />,
       },
       {
         path: endpoints.expenses.url,
-        element:
-          <PrivateComponent
-            component={ExpensesPage}
-            permission={PERMISSIONS.EXPENSE.READ}
-          />,
+        element: <PrivateComponent component={ExpensesPage} permission={PERMISSIONS.EXPENSE.READ} />,
       },
+      {
+        path: endpoints.limitCategories.url,
+        element: <PrivateComponent component={LimitCategoriesPage} permission={PERMISSIONS.LIMIT_CATEGORY.READ} />,
+      },
+      navigateTo('*', endpoints.expenses.url),
     ],
   },
 ];

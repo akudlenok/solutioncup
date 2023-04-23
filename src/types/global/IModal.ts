@@ -8,5 +8,4 @@ export interface IBaseModal {
   actions?: React.ReactNode;
 }
 
-export interface IModal extends Omit<IBaseModal, 'children'> {
-}
+export interface IModal extends Omit<IBaseModal, 'children'> {}

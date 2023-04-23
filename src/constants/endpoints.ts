@@ -11,6 +11,10 @@ export const endpoints = {
     url: '/login',
     title: 'Авторизация',
   },
+  limitCategories: {
+    url: '/limit-categories',
+    title: 'Лимиты категорий',
+  },
   expenses: {
     url: '/expenses',
     title: 'Расходы',

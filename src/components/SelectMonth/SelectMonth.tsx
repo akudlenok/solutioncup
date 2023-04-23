@@ -4,26 +4,28 @@ import { FC } from 'react';
 
 interface SelectMonthProps {
   selectMonthId: number;
-  setSelectMonthId: React.Dispatch<React.SetStateAction<number>>;
+  disabled?: boolean;
+  setSelectMonthId?: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const SelectMonth: FC<SelectMonthProps> = ({ selectMonthId, setSelectMonthId }): JSX.Element => {
-    return (
-      <Select
-        label='Месяц'
-        value={MONTHS[selectMonthId]}>
-        {
-          MONTH_IDS.map(id => {
-            return (
-              <Option value={String(selectMonthId)}>
-                {MONTHS[id]}
-              </Option>
-            );
-          })
-        }
-      </Select>
-    );
-  }
-;
-
+const SelectMonth: FC<SelectMonthProps> = ({ selectMonthId, setSelectMonthId, disabled = false }): JSX.Element => {
+  return (
+    <Select
+      label='Месяц'
+      disabled={disabled}
+      onChange={event => {
+        setSelectMonthId && setSelectMonthId(Number(event));
+      }}
+      value={String(selectMonthId)}
+    >
+      {MONTH_IDS.map(id => {
+        return (
+          <Option value={String(id)} key={id}>
+            {MONTHS[id]}
+          </Option>
+        );
+      })}
+    </Select>
+  );
+};
 export default SelectMonth;

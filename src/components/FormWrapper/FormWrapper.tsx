@@ -5,11 +5,7 @@ interface FormWrapperProps {
 }
 
 const FormWrapper: FC<FormWrapperProps> = ({ children }) => {
-  return (
-    <div className='form-control w-full bg-base-200 p-4 rounded-lg shadow'>
-      {children}
-    </div>
-  );
+  return <div className='form-control w-full  p-4'>{children}</div>;
 };
 
 export default FormWrapper;

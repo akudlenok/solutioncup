@@ -3,34 +3,30 @@ import { ICategory } from 'types/model/ICategory';
 import Modal from 'components/Modal/Modal';
 import { IModal } from 'types/global/IModal';
 import CategoryForm from 'components/Categories/Form/CategoryForm';
-import { ICategoryFormFields } from 'types/form/IRoleFormFields';
-import { useAppDispatch } from 'hooks/redux';
-import { categorySlice } from 'store/reducers/categorySlice';
+import { ICategoryFormFields } from 'types/form/ICategoryFormFields';
+import { useUpdateCategoryMutation } from 'services/categories';
 
 interface ModalUpdateCategoryProps extends IModal {
   category: ICategory;
 }
 
 const ModalUpdateCategory: FC<ModalUpdateCategoryProps> = ({ open, onClose, category }): JSX.Element => {
-  const dispatch = useAppDispatch();
-  const { update } = categorySlice.actions;
+  const [update] = useUpdateCategoryMutation();
   const onSubmit = (data: ICategoryFormFields): void => {
-    dispatch(update({
+    update({
       id: category.id,
       data,
-    }));
-    onClose();
+    })
+      .unwrap()
+      .then(resp => {
+        onClose();
+      })
+      .catch(err => {});
   };
 
   return (
-    <Modal
-      title='Редактирование категории'
-      open={open}
-      onClose={onClose}>
-      <CategoryForm
-        category={category}
-        onSubmit={onSubmit}
-      />
+    <Modal title='Редактирование категории' open={open} onClose={onClose}>
+      <CategoryForm category={category} onSubmit={onSubmit} />
     </Modal>
   );
 };

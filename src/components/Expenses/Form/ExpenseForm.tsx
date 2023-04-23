@@ -1,14 +1,11 @@
 import { FC } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { ICategoryFormFields } from 'types/form/IRoleFormFields';
-import { Button, Input } from '@material-tailwind/react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Button, Input, Option, Select } from '@material-tailwind/react';
 import FormWrapper from 'components/FormWrapper/FormWrapper';
 import { IExpenseFormFields } from 'types/form/IExpenseFromFields';
 import { IExpense } from 'types/model/IExpense';
-import { useAppSelector } from 'hooks/redux';
-import { getAllCompanies } from 'store/reducers/categorySlice';
-import { DEFAUL_SELECT_ID } from 'constants/filter';
-import { ICategory } from 'types/model/ICategory';
+import { getFormatDate } from 'utils/getFormatDate';
+import { useGetCategoriesQuery } from 'services/categories';
 
 interface RoleFormProps {
   expense?: IExpense;
@@ -20,17 +17,18 @@ const RoleForm: FC<RoleFormProps> = ({ expense, onSubmit }) => {
     register,
     formState: { errors },
     handleSubmit,
+    control,
     reset,
-  } = useForm<IExpenseFormFields>({ defaultValues: expense ? { ...expense } : {} });
-  const categories = useAppSelector(
-    getAllCompanies(),
-  );
+  } = useForm<IExpenseFormFields>({
+    defaultValues: expense
+      ? { ...expense }
+      : {
+          date: getFormatDate(new Date()),
+        },
+  });
+  const { data: categories, isFetching } = useGetCategoriesQuery({});
   const onSubmitHandler: SubmitHandler<IExpenseFormFields> = data => {
-    onSubmit({
-      ...data,
-      categoryId: +data.categoryId,
-      category: categories.find(item => item.id === +data.categoryId) as ICategory
-    });
+    onSubmit(data);
   };
 
   const onResetHandler = (): void => {
@@ -39,7 +37,7 @@ const RoleForm: FC<RoleFormProps> = ({ expense, onSubmit }) => {
 
   return (
     <FormWrapper>
-      <form className='flex flex-col gap-2' onSubmit={handleSubmit(onSubmitHandler)}>
+      <form className='flex flex-col gap-3' onSubmit={handleSubmit(onSubmitHandler)}>
         <Input
           label='Наименование расхода'
           {...register('name', {
@@ -63,27 +61,38 @@ const RoleForm: FC<RoleFormProps> = ({ expense, onSubmit }) => {
           type='number'
           autoComplete='off'
         />
-        <select  {...register('categoryId')}>
-          <option value={DEFAUL_SELECT_ID}>Не выбрано</option>
-          {categories.map(category => {
-            return (
-              <option value={category.id}>{category.name}</option>
-            );
-          })}
-        </select>
+        {categories && (
+          <Controller
+            control={control}
+            name='categoryId'
+            rules={{
+              required: true,
+            }}
+            render={({ field: { value, onChange } }) => (
+              <Select
+                disabled={!categories || !categories?.length}
+                onChange={event => {
+                  onChange(Number(event));
+                }}
+                value={value ? String(value) : undefined}
+                label='Категория расхода'
+              >
+                {categories?.map(category => {
+                  return (
+                    <Option value={String(category.id)} key={category.id}>
+                      {category.name}
+                    </Option>
+                  );
+                })}
+              </Select>
+            )}
+          />
+        )}
         <div className='flex ml-auto mt-3 gap-3'>
-          <Button
-            onClick={onResetHandler}
-            color='blue-gray'
-            type='button'
-          >
+          <Button onClick={onResetHandler} color='blue-gray' type='button'>
             Сбросить
           </Button>
-          <Button
-            type='submit'
-          >
-            {expense ? 'Сохранить' : 'Создать'}
-          </Button>
+          <Button type='submit'>{expense ? 'Сохранить' : 'Создать'}</Button>
         </div>
       </form>
     </FormWrapper>

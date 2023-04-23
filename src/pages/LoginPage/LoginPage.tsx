@@ -6,7 +6,6 @@ import { useAppDispatch } from 'hooks/redux';
 import { authSlice } from 'store/reducers/authSlice';
 import { LoginRequest } from 'types/request/LoginRequest';
 import { useLoginMutation } from 'services/auth';
-import { authUser } from 'constants/fakeData';
 
 const LoginPage: FC = (): JSX.Element => {
   const navigate = useNavigate();
@@ -36,18 +35,17 @@ const LoginPage: FC = (): JSX.Element => {
       return;
     }
 
-    dispatch(login({ user: data.user, token: data.access_token }));
+    dispatch(login({ token: data.access_token }));
     navigate(endpoints.base.url);
   }, [isSuccessAuth, data]);
 
   const loginHandler = () => {
-    dispatch(login({ user: authUser, token: 'token' }));
+    dispatch(login({ token: 'token' }));
     navigate(endpoints.base.url);
   };
 
   return (
-    <div
-      className='w-full p-10 m-auto bg-white rounded-md shadow-xl shadow-blue-300/40 ring ring-2 ring-blue-300 lg:max-w-xl'>
+    <div className='w-full p-10 m-auto bg-white rounded-md shadow-xl shadow-blue-300/40 ring ring-2 ring-blue-300 lg:max-w-xl'>
       <Card color='transparent' shadow={false} className='text-center'>
         <Typography variant='h4' color='blue-gray'>
           Войдите в свой аккаунт

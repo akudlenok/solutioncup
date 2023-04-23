@@ -1,0 +1,91 @@
+{
+  "categories": [
+    {
+      "name": "Автомобиль",
+      "id": 1
+    },
+    {
+      "name": "Образование",
+      "id": 2
+    },
+    {
+      "name": "Хобби",
+      "id": 3
+    },
+    {
+      "name": "Досуг",
+      "id": 4
+    }
+  ],
+  "limitCategories": [
+    {
+      "id": 1,
+      "month": 4,
+      "categoryId": 1,
+      "category": {
+        "name": "Автомобиль",
+        "id": 1
+      },
+      "limit": "10000"
+    },
+    {
+      "id": 2,
+      "month": 4,
+      "categoryId": 2,
+      "category": {
+        "name": "Образование",
+        "id": 2
+      },
+      "limit": "15000"
+    },
+    {
+      "id": 3,
+      "month": 4,
+      "categoryId": 3,
+      "category": {
+        "name": "Хобби",
+        "id": 3
+      },
+      "limit": "5000"
+    },
+    {
+      "id": 4,
+      "month": 4,
+      "categoryId": 4,
+      "category": {
+        "name": "Досуг",
+        "id": 4
+      },
+      "limit": "5000"
+    }
+  ],
+  "profile": {
+    "id": 1,
+    "lastName": "Иванов",
+    "firstName": "Иван",
+    "middleName": "Иванович",
+    "permissions": [
+      "CREATE_CATEGORY",
+      "READ_CATEGORY",
+      "UPDATE_CATEGORY",
+      "DELETE_CATEGORY",
+      "CREATE_EXPENSE",
+      "READ_EXPENSE",
+      "UPDATE_EXPENSE",
+      "DELETE_EXPENSE",
+      "CREATE_LIMIT_CATEGORY",
+      "READ_LIMIT_CATEGORY",
+      "UPDATE_LIMIT_CATEGORY",
+      "DELETE_LIMIT_CATEGORY"
+    ]
+  },
+  "expenses": [
+    {
+      "date": "2023-04-22",
+      "name": "Мойка машины",
+      "total": "500",
+      "categoryId": 1,
+      "id": 1
+    }
+  ]
+}

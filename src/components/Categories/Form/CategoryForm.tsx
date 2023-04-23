@@ -1,16 +1,16 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ICategory } from 'types/model/ICategory';
-import { ICategoryFormFields } from 'types/form/IRoleFormFields';
+import { ICategoryFormFields } from 'types/form/ICategoryFormFields';
 import { Button, Input } from '@material-tailwind/react';
 import FormWrapper from 'components/FormWrapper/FormWrapper';
 
-interface RoleFormProps {
+interface CategoryFormProps {
   category?: ICategory;
   onSubmit: (data: ICategoryFormFields) => void;
 }
 
-const CategoryForm: FC<RoleFormProps> = ({ category, onSubmit }) => {
+const CategoryForm: FC<CategoryFormProps> = ({ category, onSubmit }) => {
   const {
     register,
     formState: { errors },
@@ -36,18 +36,10 @@ const CategoryForm: FC<RoleFormProps> = ({ category, onSubmit }) => {
           autoComplete='off'
         />
         <div className='flex ml-auto mt-3 gap-3'>
-          <Button
-            onClick={onResetHandler}
-            color='blue-gray'
-            type='button'
-          >
+          <Button onClick={onResetHandler} color='blue-gray' type='button'>
             Сбросить
           </Button>
-          <Button
-            type='submit'
-          >
-            {category ? 'Сохранить' : 'Создать'}
-          </Button>
+          <Button type='submit'>{category ? 'Сохранить' : 'Создать'}</Button>
         </div>
       </form>
     </FormWrapper>

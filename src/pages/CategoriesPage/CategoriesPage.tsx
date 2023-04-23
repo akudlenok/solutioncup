@@ -1,43 +1,47 @@
 import { FC } from 'react';
 import PageTitle from 'components/PageTitle/PageTitle';
-import { Button } from '@material-tailwind/react';
+import { Button, Tooltip } from '@material-tailwind/react';
 import useToggle from 'hooks/useToggle';
 import ModalCreateCategory from 'components/Categories/Modal/ModalCreateCategory';
-import { useAppSelector } from 'hooks/redux';
-import { getCompanies } from 'store/reducers/categorySlice';
 import CategoriesTable from 'components/Categories/Table/CategoriesTable';
 import { useCheckPermission } from 'hooks/useCheckPermission';
 import { PERMISSIONS } from 'constants/permissions';
+import { useGetCategoriesQuery } from 'services/categories';
+import Loading from 'components/Loading/Loading';
+import { usePagination } from 'hooks/usePagination';
 
 const CategoriesPage: FC = (): JSX.Element => {
   const [isShowModal, toggleShowModal] = useToggle(false);
   const isCanCreateCategory = useCheckPermission(PERMISSIONS.CATEGORIES.CREATE);
-  const categories = useAppSelector(
-    getCompanies(1, 10),
-  );
+  const { page, setPage, size, setSize } = usePagination();
+  const { data: categories, isFetching } = useGetCategoriesQuery({
+    page,
+    size,
+  });
   return (
     <>
       <div className='flex justify-between items-center'>
         <PageTitle title='Категории расходов' />
-        {isCanCreateCategory &&
-          <Button
-            size='md'
-            className='h-10'
-            disabled={isShowModal}
-            onClick={toggleShowModal}>
-            Создать категорию
-          </Button>
-        }
       </div>
-      <CategoriesTable categories={categories} />
-      {isCanCreateCategory &&
-        <ModalCreateCategory
-          open={isShowModal}
-          onClose={toggleShowModal}
-        />}
+      {isFetching ? (
+        <Loading />
+      ) : categories && categories.length ? (
+        <CategoriesTable categories={categories} />
+      ) : (
+        <div>Нет данных</div>
+      )}
+      {isCanCreateCategory && <ModalCreateCategory open={isShowModal} onClose={toggleShowModal} />}
+      {isCanCreateCategory && (
+        <div className='fixed bottom-10 right-10'>
+          <Tooltip placement='left' content='Добавить категорию'>
+            <Button size='md' className='h-10' disabled={isShowModal || isFetching} onClick={toggleShowModal}>
+              +
+            </Button>
+          </Tooltip>
+        </div>
+      )}
     </>
   );
 };
-
 
 export default CategoriesPage;

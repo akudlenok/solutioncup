@@ -1,2 +1,2 @@
 export const DEFAULT_SIZE_PAGE = 20;
-export const DEFAUL_SELECT_ID = -1;
+export const DEFAULT_SELECT_ID = -1;
